@@ -1,0 +1,45 @@
+Comandos Git:
+
+git init -> cria o repositório Git em pasta de projeto vazia ou já com projeto em andamento
+
+git status -> checa os arquivos que estão incluidos no repositório local e que ainda não estão
+
+git add -A -> envia os arquivos nao incluidos para o repositório local
+
+git commit -m "arquivo.ext" -> comita os arquivos da staging area para o repositorio e nomeia o commit com o conteudo entre aspas.
+
+git commit -a -> commita todos os arquivos que estão na "staging area" para o repositório.
+
+git log -> mostra os commits já realizados
+
+git log --oneline -> moare uma organização dos commits realizados com nome de cada um e detalhamento
+
+git branch -> mostra o versionamento do repositório master e branches, apontando em qual deles você está
+
+git branch NOMEDABRANCH -> cria um novo branch com nome
+
+git log --oneline --decorate -> mostra o histórico sumarizado de commites e mostrando o HEAD (é em qual você está)
+
+git checkout NOMEDABRANCH -> move você para a Branch nomeada (direciona o HEAD para essa branch) - os commits feitos sempre vão para onde está o HEAD - deve ser feito para começar a trabalhar nesta nova branch.
+
+git checkout master -> volta para o commit MASTER (primeiro do projeto)
+
+git merge NOMEDABRANCH -> estando no master (ou em outra branch) mescla a branch apontada (NOMEDABRANCH) com o commit em que você está.
+
+git branch -d NOMEDABRANCH -> deleta a NOMEDABRANCH - se você já fez o que tinha que ser feito na branch e fez um merge para a MASTER, você pode deletar esta branch do repositório.
+
+git log --oneline --decorate --all --graph -> mostra os commits e um "grafico" entre suas relações, facilitando a identificação de divergências entre as Branches.
+
+git checkout -b NOMEDABRANCH -> cria a nova branch e já entra nela (é o git branch + git checkout + carta de polimerização de yu-gi-oh)
+
+git remote add "origin" LINK DO REPOSITORIO -> Configura o repositorio remoto com o local
+
+git remote -> mostra o origin do repositorio remoto
+
+CONCEITO PUSH: empurrar, é a ação de atualizar uma referência remota a partir da referencia local, enviando os objetos necessários para satisfazer as referências atualizadas
+
+git push origin master -> emvia os arquivos da master para o repositorio remoto.
+
+CONCEITO PULL: puxar, atualizar a referência local a partir da remota. Traz os objetos necessários para satisfazer as referências atualizadas.
+
+git pull origin master -> traz os arquivos remotos para atualizar o repositório local
