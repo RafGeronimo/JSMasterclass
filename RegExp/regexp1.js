@@ -1,0 +1,1 @@
+console.log(/john@gmail.com/); // expressão regular com typeOf object
