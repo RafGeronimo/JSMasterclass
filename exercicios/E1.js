@@ -23,3 +23,5 @@ console.log(ageColumn);
 console.log(cityColumn);
 console.log(stateColumn);
 console.log(countryColumn);
+
+console.log(result);
