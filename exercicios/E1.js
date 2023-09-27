@@ -1,7 +1,7 @@
 const command =
   "create table author (id number, name string, age number, city string, state string, country string)";
 
-const regExp = /create\stable\s([a-zA-Z]+)\s\((([a-zA-Z\s$,]+))\)/;
+const regExp = /create\stable\s([a-zA-Z]+)\s\(([a-zA-Z\s$,]+)\)/;
 
 const result = regExp.exec(command);
 const tableName = result[1];
