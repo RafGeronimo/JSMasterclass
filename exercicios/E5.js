@@ -37,23 +37,17 @@ const database = {
     insert(statement) {
         const regExp = /insert into ([a-zA-Z]+) \((.+)\) values \((.+)\)/;
         const parsedStatement = statement.match(regExp);
-        console.log(parsedStatement);
-        // const tableName = parsedStatement[1];
-        // this.tables[tableName] = {
-        //     columns: {},
-        //     data: [],
-        // };
+        const tableName = parsedStatement[1];
+        console.log(tableName);
         let columns = parsedStatement[2];
         columns = columns.split(", ");
         let values = parsedStatement[3];
         values = values.split(", ");
 
-        console.log(columns);
-
-        // for (let i = 1; i < columns.length; i++){
-        //     const row = {id, name, age}
-
-        // }
+        for (let i = 0; i < columns.length; i++){
+            let row = {columns:columns[i], values:values[i]}
+            this.tables[tableName].data.push(row);
+        }
     }
 
 };
@@ -61,6 +55,8 @@ const database = {
 try{
     database.execute("create table author (id number, name string, age number, city string, state string, country string)");
     database.execute("insert into author (id, name, age) values (1, Douglas Crockford, 62)")
+    database.execute("insert into author (id, name, age) values (2, Linus Torvalds, 47)");
+    database.execute("insert into author (id, name, age) values (3, Martin Fowler, 54)");
     //database.execute("select id, name from author")
     console.log(JSON.stringify(database, null,"   "));
 }catch(e){
