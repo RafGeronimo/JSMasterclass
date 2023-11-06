@@ -38,16 +38,19 @@ const database = {
         const regExp = /insert into ([a-zA-Z]+) \((.+)\) values \((.+)\)/;
         const parsedStatement = statement.match(regExp);
         const tableName = parsedStatement[1];
-        console.log(tableName);
         let columns = parsedStatement[2];
         columns = columns.split(", ");
         let values = parsedStatement[3];
         values = values.split(", ");
 
+        console.log(columns);  
+        console.log(values);
+
+        let row = {}
         for (let i = 0; i < columns.length; i++){
-            let row = {columns:columns[i], values:values[i]}
-            this.tables[tableName].data.push(row);
+            Object.defineProperties(row, [columns[i]], {enumerable: true , value: values[i]})
         }
+        this.tables[tableName].data.push(row);
     }
 
 };
