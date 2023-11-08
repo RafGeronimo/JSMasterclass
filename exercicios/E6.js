@@ -47,9 +47,17 @@ const database = {
     this.tables[tableName].data.push(row);
   },
   select(statement) {
-    const regExp = /select ([a-zA-Z]+), ([a-zA-Z]+) from/;
+    const regExp = /select ([a-zA-Z]+), ([a-zA-Z]+) from ([a-zA-Z]+)\s?(?:where (.+))?/;
     const parsedStatement = statement.match(regExp);
     console.log(parsedStatement);
+    let [, columnWhere, valueWhere, , where] = parsedStatement;
+    console.log(columnWhere);
+    console.log(valueWhere);
+    console.log(where);
+    // let row = {};
+    // for (let i = 0; i < columns.lenght; i++) {
+    //   const 
+    // }
   },
 };
 
