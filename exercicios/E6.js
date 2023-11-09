@@ -47,17 +47,23 @@ const database = {
     this.tables[tableName].data.push(row);
   },
   select(statement) {
-    const regExp = /select ([a-zA-Z]+), ([a-zA-Z]+) from ([a-zA-Z]+)\s?(?:where (.+))?/;
+    const regExp = /select (.+) from ([a-zA-Z]+)\s?(?:where ?id ??= (.+))?/;
     const parsedStatement = statement.match(regExp);
-    console.log(parsedStatement);
-    let [, columnWhere, valueWhere, , where] = parsedStatement;
-    console.log(columnWhere);
-    console.log(valueWhere);
-    console.log(where);
-    // let row = {};
-    // for (let i = 0; i < columns.lenght; i++) {
-    //   const 
-    // }
+    //console.log(parsedStatement);
+    let [, columns, tableName, authorId] = parsedStatement;
+    columns = columns.split(", ")
+    const data = this.tables[tableName].data;
+    const result = [];
+    let row = []
+    if (!authorId) {
+      for (i = 0; i < columns.length; i++) {
+        row.push(data.map((obj) => obj[columns[i]]));
+      }
+      console.log("segura na mao de deeeeos", row)
+    }else{
+      console.log("There are no ID in the input")
+    }
+    //console.log(this.tables[tableName].data)
   },
 };
 
