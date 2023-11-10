@@ -57,6 +57,11 @@ const database = {
       columns.forEach((col) => selectedRow[col] = row[col])
       return selectedRow
     })
+    if (authorId) {
+      const valueWhere = authorId
+      console.log(valueWhere)
+      rows.filter(function (obj) {obj.id === valueWhere})
+    }
     return rows
 
     // if (!valueWhere) {
@@ -87,6 +92,7 @@ try {
     "insert into author (id, name, age) values (3, Martin Fowler, 54)"
   );
   console.log(JSON.stringify(database.execute("select name, age from author"), undefined, " "));
+  console.log(JSON.stringify(database.execute("select name, age from author where id = 1"), undefined, " "));
   //database.execute("select name, age from author");
   //database.execute("select name, age from author where id = 1");
   //console.log(JSON.stringify(database, null, "   "));
