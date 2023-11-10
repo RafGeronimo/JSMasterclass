@@ -49,20 +49,26 @@ const database = {
   select(statement) {
     const regExp = /select (.+) from ([a-zA-Z]+)\s?(?:where ?id ??= (.+))?/;
     const parsedStatement = statement.match(regExp);
-    //console.log(parsedStatement);
     let [, columns, tableName, authorId] = parsedStatement;
     columns = columns.split(", ")
-    const data = this.tables[tableName].data;
-    const result = [];
-    let row = []
-    if (!authorId) {
-      for (i = 0; i < columns.length; i++) {
-        row.push(data.map((obj) => obj[columns[i]]));
-      }
-      console.log("segura na mao de deeeeos", row)
-    }else{
-      console.log("There are no ID in the input")
-    }
+    let rows = this.tables[tableName].data;
+    rows = rows.map(function(row) {
+      let selectedRow = {};
+      columns.forEach((col) => selectedRow[col] = row[col])
+      return selectedRow
+    })
+    return rows
+
+    // if (!valueWhere) {
+    //   let valueWhere = []
+    //   for (i = 0; i <= columns.length; i++) {
+    //     valueWhere.push(i + 1);
+    //   }
+    //   valueWhere.map((id) =>)
+    //   console.log(result)
+    // }else{
+      
+    // }
     //console.log(this.tables[tableName].data)
   },
 };
@@ -80,8 +86,9 @@ try {
   database.execute(
     "insert into author (id, name, age) values (3, Martin Fowler, 54)"
   );
-  database.execute("select name, age from author");
-  database.execute("select name, age from author where id = 1");
+  console.log(JSON.stringify(database.execute("select name, age from author"), undefined, " "));
+  //database.execute("select name, age from author");
+  //database.execute("select name, age from author where id = 1");
   //console.log(JSON.stringify(database, null, "   "));
 } catch (e) {
   console.log(e.message);
