@@ -47,34 +47,23 @@ const database = {
     this.tables[tableName].data.push(row);
   },
   select(statement) {
-    const regExp = /select (.+) from ([a-zA-Z]+)\s?(?:where ?id ??= (.+))?/;
+    const regExp = /select (.+) from ([a-z]+)(?: where (.+))?/
     const parsedStatement = statement.match(regExp);
-    let [, columns, tableName, authorId] = parsedStatement;
-    columns = columns.split(", ")
-    let rows = this.tables[tableName].data;
-    rows = rows.map(function(row) {
-      let selectedRow = {};
-      columns.forEach((col) => selectedRow[col] = row[col])
+    let [, columns, tableName, whereClause] = parsedStatement;
+    columns = columns.split(", ");
+    let rows = this.tables[tableName].data.filter(function (row) {
+      if (!whereClause) return true
+      const [columnWhere, valueWhere] = whereClause.split(" = ")
+      return row[columnWhere] === valueWhere
+    })
+    rows = rows.map(function (row) {
+      const selectedRow = {}
+      columns.forEach(function (column) {
+        selectedRow[column] = row[column]
+      });
       return selectedRow
     })
-    if (authorId) {
-      const valueWhere = authorId
-      console.log(valueWhere)
-      rows.filter(function (obj) {obj.id === valueWhere})
-    }
-    return rows
-
-    // if (!valueWhere) {
-    //   let valueWhere = []
-    //   for (i = 0; i <= columns.length; i++) {
-    //     valueWhere.push(i + 1);
-    //   }
-    //   valueWhere.map((id) =>)
-    //   console.log(result)
-    // }else{
-      
-    // }
-    //console.log(this.tables[tableName].data)
+    return rows;
   },
 };
 
@@ -93,8 +82,6 @@ try {
   );
   console.log(JSON.stringify(database.execute("select name, age from author"), undefined, " "));
   console.log(JSON.stringify(database.execute("select name, age from author where id = 1"), undefined, " "));
-  //database.execute("select name, age from author");
-  //database.execute("select name, age from author where id = 1");
   //console.log(JSON.stringify(database, null, "   "));
 } catch (e) {
   console.log(e.message);
