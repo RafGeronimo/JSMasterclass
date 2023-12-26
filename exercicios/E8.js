@@ -30,7 +30,6 @@
 //     "name": "Martin Fowler",
 //     "age": "54"
 // }]
-
 // Dicas
 // Dentro do método "parse", você pode iterar sobre o Map de "commands" com for/of e utilizar destructuring para extrair o "command" e o "parsedStatement".
 
@@ -41,15 +40,19 @@ const DatabaseError = function (statement, message) {
 
 const Parser = function () {
   const commands = new Map([
-    ["create table", /create table ([a-zA-Z]+) \((.+)\)/],
+    ["createTable", /create table ([a-zA-Z]+) \((.+)\)/],
     ["insert", /insert into ([a-zA-Z]+) \((.+)\) values \((.+)\)/],
     ["select", /select (.+) from ([a-z]+)(?: where (.+))?/],
     ["delete", /delete from ([a-z]+)(?: where (.+))?/],
   ]);
   this.parse = function (statement) {
-    for (let obj of commands) {
-      if (statement.match(obj)) {
-        return ([, command, parsedStatement] = statement.match(obj));
+    for (let [command, regExp] of commands) {
+      const parsedStatement = statement.match(regExp);
+      if (parsedStatement) {
+        return {
+          command,
+          parsedStatement,
+        };
       }
     }
   };
@@ -58,9 +61,7 @@ const Parser = function () {
 const database = {
   tables: {},
   parser: new Parser(),
-  createTable(statement) {
-    const regExp = /create table ([a-zA-Z]+) \((.+)\)/;
-    const parsedStatement = statement.match(regExp);
+  createTable(parsedStatement) {
     let [, tableName, columns] = parsedStatement;
     this.tables[tableName] = {
       columns: {},
@@ -68,28 +69,12 @@ const database = {
     };
     columns = columns.split(", ");
     for (let column of columns) {
-      column = column.split(" ");
+      column = column.trim().split(" ");
       const [name, type] = column;
       this.tables[tableName].columns[name] = type;
     }
   },
-  execute(statement) {
-    // if (statement.startsWith("create table")) {
-    //   return this.createTable(statement);
-    // } else if (statement.startsWith("insert into")) {
-    //   return this.insert(statement);
-    // } else if (statement.startsWith("select")) {
-    //   return this.select(statement);
-    // } else if (statement.startsWith("delete")) {
-    //   return this.delete(statement);
-    // }
-    this.parser.parse(statement);
-    const message = `Syntax error: "${statement}"`;
-    throw new DatabaseError(statement, message);
-  },
-  insert(statement) {
-    const regExp = /insert into ([a-zA-Z]+) \((.+)\) values \((.+)\)/;
-    const parsedStatement = statement.match(regExp);
+  insert(parsedStatement) {
     let [, tableName, columns, values] = parsedStatement;
     columns = columns.split(", ");
     values = values.split(", ");
@@ -102,42 +87,47 @@ const database = {
     }
     this.tables[tableName].data.push(row);
   },
-  select(statement) {
-    const regExp = /select (.+) from ([a-z]+)(?: where (.+))?/;
-    const parsedStatement = statement.match(regExp);
+  select(parsedStatement) {
     let [, columns, tableName, whereClause] = parsedStatement;
     columns = columns.split(", ");
     let rows = this.tables[tableName].data;
     if (whereClause) {
       const [columnWhere, valueWhere] = whereClause.split(" = ");
-      rows = rows.filter(function (row) {
+      rows = rows.filter((row) => {
         return row[columnWhere] === valueWhere;
       });
     }
-    rows = rows.map(function (row) {
+    rows = rows.map((row) => {
       let selectedRow = {};
-      columns.forEach(function (column) {
+      columns.forEach((column) => {
         selectedRow[column] = row[column];
       });
       return selectedRow;
     });
     return rows;
   },
-  delete(statement) {
-    const regExp = /delete from ([a-z]+)(?: where (.+))?/;
-    const parsedStatement = statement.match(regExp);
+  delete(parsedStatement) {
     let [, tableName, whereClause] = parsedStatement;
     if (whereClause) {
       const [columnWhere, valueWhere] = whereClause.split(" = ");
       this.tables[tableName].data = this.tables[tableName].data.filter(
-        (row) => valueWhere !== row[columnWhere]
+        (row) => {
+          return valueWhere !== row[columnWhere];
+        }
       );
     } else {
       this.tables[tableName].data = [];
     }
   },
+  execute(statement) {
+    const result = this.parser.parse(statement);
+    if (result) {
+      return this[result.command](result.parsedStatement);
+    }
+    const message = `Syntax error: "${statement}"`;
+    throw new DatabaseError(statement, message);
+  },
 };
-
 try {
   database.execute(
     "create table author (id number, name string, age number, city string, state string, country string)"
