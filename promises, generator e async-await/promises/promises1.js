@@ -10,7 +10,7 @@ sum(2, 2, function (result) {
   console.log(result);
 });
 
-//funcao se soma normal:
+//funcao de soma normal:
 // function sum(a, b) {
 //     return a + b;
 // }
