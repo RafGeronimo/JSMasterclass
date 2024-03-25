@@ -1,0 +1,7 @@
+mutation QFDJsonData($object: QFD_QFD_insert_input!) {
+ insert_QFD_QFD_one(object: $object, on_conflict: { constraint: QFD_pkey, update_columns: [name, data] }) {
+  id
+  name
+  data
+ }
+}
