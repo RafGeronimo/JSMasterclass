@@ -1,3 +1,31 @@
+//dados de entrada:
+// const data = [
+//     { x: 17.4903, y: 0.0012, deviation: -0.0097 },
+//     { x: 16.7174, y: 5.1576, deviation: -0.0051 },
+//     { x: 14.4597, y: 9.8579, deviation: 0.0005 },
+//     { x: 10.9146, y: 13.6834, deviation: 0.0036 },
+//     { x: 6.3967, y: 16.2969, deviation: 0.0033 },
+//     { x: 1.3083, y: 17.4608, deviation: 0.0005 },
+//     { x: -3.9017, y: 17.075, deviation: -0.0076 },
+//     { x: -8.7595, y: 15.1655, deviation: -0.0095 },
+//     { x: -12.8419, y: 11.9095, deviation: -0.0135 },
+//     { x: -15.7892, y: 7.6, deviation: -0.0222 },
+//     { x: -17.3197, y: 2.6061, deviation: -0.0151 },
+//     { x: -17.316, y: -2.6122, deviation: -0.0114 },
+//     { x: -15.7786, y: -7.6037, deviation: -0.0117 },
+//     { x: -12.8444, y: -11.9188, deviation: -0.016 },
+//     { x: -8.7539, y: -15.1654, deviation: -0.0039 },
+//     { x: -3.8966, y: -17.0728, deviation: -0.0025 },
+//     { x: 1.312, y: -17.4567, deviation: 0.0043 },
+//     { x: 6.3998, y: -16.2982, deviation: 0.0063 },
+//     { x: 10.9165, y: -13.684, deviation: 0.0054 },
+//     { x: 14.4598, y: -9.8494, deviation: 0.0007 },
+//     { x: 16.7138, y: -5.1526, deviation: -0.0087 }
+// ];
+
+// o código busca encontrar uma circunferencia (raio e centro) que melhor se ajuste aos pontos e seus respectivos desvios padrão.
+
+
 import { ExcelData } from "./getData";
 
 export default function calculateCircle(data: ExcelData[][]) {
@@ -76,30 +104,3 @@ export default function calculateCircle(data: ExcelData[][]) {
   return results;
 }
 
-
-//dados de entrada:
-// const data = [
-//     { x: 17.4903, y: 0.0012, deviation: -0.0097 },
-//     { x: 16.7174, y: 5.1576, deviation: -0.0051 },
-//     { x: 14.4597, y: 9.8579, deviation: 0.0005 },
-//     { x: 10.9146, y: 13.6834, deviation: 0.0036 },
-//     { x: 6.3967, y: 16.2969, deviation: 0.0033 },
-//     { x: 1.3083, y: 17.4608, deviation: 0.0005 },
-//     { x: -3.9017, y: 17.075, deviation: -0.0076 },
-//     { x: -8.7595, y: 15.1655, deviation: -0.0095 },
-//     { x: -12.8419, y: 11.9095, deviation: -0.0135 },
-//     { x: -15.7892, y: 7.6, deviation: -0.0222 },
-//     { x: -17.3197, y: 2.6061, deviation: -0.0151 },
-//     { x: -17.316, y: -2.6122, deviation: -0.0114 },
-//     { x: -15.7786, y: -7.6037, deviation: -0.0117 },
-//     { x: -12.8444, y: -11.9188, deviation: -0.016 },
-//     { x: -8.7539, y: -15.1654, deviation: -0.0039 },
-//     { x: -3.8966, y: -17.0728, deviation: -0.0025 },
-//     { x: 1.312, y: -17.4567, deviation: 0.0043 },
-//     { x: 6.3998, y: -16.2982, deviation: 0.0063 },
-//     { x: 10.9165, y: -13.684, deviation: 0.0054 },
-//     { x: 14.4598, y: -9.8494, deviation: 0.0007 },
-//     { x: 16.7138, y: -5.1526, deviation: -0.0087 }
-// ];
-
-// o código busca encontrar uma circunferencia (raio e centro) que melhor se ajuste aos pontos e seus respectivos desvios padrão.
